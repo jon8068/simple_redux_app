@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
-import {changeName} from './Actions/place';
+import {changeName, changeAge} from './Actions/UserAction';
 
 class HomeScreen extends Component {
   render() {
     const {viewStyle, textStyle} = styles;
     return (
       <View style={viewStyle}>
-        <Text style={textStyle}>Halo, {this.props.name.state}</Text>
+        <Text style={textStyle}>Halo, {this.props.user.name}</Text>
+        <Text style={textStyle}>Umurmu adalah {this.props.user.age} tahun</Text>
       </View>
     );
   }
@@ -17,17 +18,21 @@ class HomeScreen extends Component {
 const mapStateToProps = state => {
   console.log(state);
   return {
-    name: state.name,
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    add: name => {
-      dispatch(changeName(name));
+    addName: user => {
+      dispatch(changeName(user));
+    },
+    addAge: user => {
+      dispatch(changeAge(user));
     },
   };
 };
+
 
 export default connect(
   mapStateToProps,

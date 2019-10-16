@@ -1,19 +1,25 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux';
-import {changeName} from './Actions/place';
+import {changeName, changeAge} from './Actions/UserAction';
 
 class ProfileScreen extends Component {
-  handleChangeText = inputName => {
-    this.setState({name: inputName}, () => {
-      console.log(this.state.name);
+  handleChangeText = input => {
+    this.setState({user: input}, () => {
+      console.log(this.state.user);
     });
   };
 
-  submitHandler = () => {
+  submitHandlerName = () => {
     mapStateToProps(this.state);
-    this.props.add(this.state.name);
-    Alert.alert('Berhasil submit!');
+    this.props.addName(this.state.user);
+    Alert.alert('Berhasil submit nama!');
+  };
+
+  submitHandlerAge = () => {
+    mapStateToProps(this.state);
+    this.props.addAge(this.state.user);
+    Alert.alert('Berhasil submit umur!');
   };
 
   render() {
@@ -21,7 +27,7 @@ class ProfileScreen extends Component {
 
     return (
       <View style={viewStyle}>
-        <Text style={textStyle}>Ganti Nama</Text>
+        <Text style={textStyle}>Tambahkan Nama</Text>
         <View style={inputStyle}>
           <TextInput
             placeholder="Enter Name Here"
@@ -31,7 +37,21 @@ class ProfileScreen extends Component {
         <TouchableOpacity
           style={btnStyle}
           onPress={() => {
-            this.submitHandler();
+            this.submitHandlerName();
+          }}>
+          <Text style={textStyle}>Submit</Text>
+        </TouchableOpacity>
+        <Text style={textStyle}>Tambahkan Umur</Text>
+        <View style={inputStyle}>
+          <TextInput
+            placeholder="Enter Age Here"
+            onChangeText={this.handleChangeText}
+          />
+        </View>
+        <TouchableOpacity
+          style={btnStyle}
+          onPress={() => {
+            this.submitHandlerAge();
           }}>
           <Text style={textStyle}>Submit</Text>
         </TouchableOpacity>
@@ -43,14 +63,17 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => {
   console.log(state);
   return {
-    name: state.name,
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    add: name => {
-      dispatch(changeName(name));
+    addName: user => {
+      dispatch(changeName(user));
+    },
+    addAge: user => {
+      dispatch(changeAge(user));
     },
   };
 };
